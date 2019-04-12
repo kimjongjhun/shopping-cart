@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card/Card";
-import Button from "@material-ui/core/Button/Button";
 import TextField from "@material-ui/core/TextField/TextField";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem/ListItem";
+import Typography from "@material-ui/core/Typography/Typography";
+import Item from "../../Item/Item";
 
 class Find extends Component {
   state = {
@@ -13,8 +13,8 @@ class Find extends Component {
   addToList = event => {
     event.preventDefault();
 
-    if (this.checkDupe(this.state.searchText)) {
-      alert("Item already exists in the find list!");
+    if (this.checkList(this.state.searchText)) {
+      alert("Item already exists in the list or is already in the cart!");
       this.clearSearch();
       return null;
     }
@@ -35,8 +35,8 @@ class Find extends Component {
     this.props.moveToCart(index);
   };
 
-  checkDupe = item => {
-    if (this.props.list.includes(item)) {
+  checkList = item => {
+    if (this.props.list.includes(item) || this.props.cartList.includes(item)) {
       return true;
     }
 
@@ -56,31 +56,20 @@ class Find extends Component {
   renderListItems = itemList => {
     return itemList.map(item => {
       return (
-        <ListItem dense key={item}>
-          <h4>{item}</h4>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => this.removeFromList(item)}
-          >
-            Remove
-          </Button>
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={() => this.moveToCart(item)}
-          >
-            Add to Cart
-          </Button>
-        </ListItem>
+        <Item
+          item={item}
+          cart={true}
+          removeFromList={this.removeFromList}
+          moveToCart={this.moveToCart}
+        />
       );
     });
   };
 
   render() {
     return (
-      <Card>
-        Find List
+      <Card style={{ textAlign: "center" }}>
+        <Typography variant="h2">Find List</Typography>
         <form onSubmit={this.addToList}>
           <TextField
             id="outlined-search"
@@ -91,9 +80,6 @@ class Find extends Component {
             value={this.state.searchText}
             onChange={this.handleFieldChange}
           />
-          <Button variant="outlined" color="primary" type="submit">
-            Add
-          </Button>
         </form>
         <List>{this.renderListItems(this.props.list)}</List>
       </Card>

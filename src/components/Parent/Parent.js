@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid/Grid";
 import Find from "./Find/Find";
 import Cart from "./Cart/Cart";
@@ -46,6 +46,7 @@ class Parent extends Component {
         <Grid item xs={6}>
           <Find
             list={this.state.findList}
+            cartList={this.state.cartList}
             addToList={this.addToList}
             removeFromList={this.removeFromList}
             moveToCart={this.moveToCart}

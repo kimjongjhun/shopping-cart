@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Card from "@material-ui/core/Card/Card";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem/ListItem";
-import Button from "@material-ui/core/Button/Button";
+import Typography from "@material-ui/core/Typography/Typography";
+import Item from "../../Item/Item";
 
 class Cart extends Component {
   removeFromList = item => {
@@ -14,24 +14,15 @@ class Cart extends Component {
   renderListItems = () => {
     return this.props.list.map(item => {
       return (
-        <ListItem dense key={item}>
-          <h4>{item}</h4>
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => this.removeFromList(item)}
-          >
-            Remove
-          </Button>
-        </ListItem>
+        <Item item={item} cart={false} removeFromList={this.removeFromList} />
       );
     });
   };
 
   render() {
     return (
-      <Card>
-        Cart List
+      <Card style={{ textAlign: "center" }}>
+        <Typography variant="h2">Cart List</Typography>
         <List>{this.renderListItems()}</List>
       </Card>
     );
